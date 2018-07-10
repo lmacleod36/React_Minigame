@@ -1,58 +1,34 @@
-const path = require('path');
-const webpack = require('webpack');
-
-const ROOT = path.resolve( __dirname, 'src' );
-const DESTINATION = path.resolve( __dirname, 'dist' );
-
 module.exports = {
-    context: ROOT,
-
-    entry: {
-        'main': './main.ts'
-    },
-    
+    entry: "./src/index.tsx",
     output: {
-        filename: '[name].bundle.js',
-        path: DESTINATION
+        filename: "bundle.js",
+        path: __dirname + "/dist"
     },
+
+    // Enable sourcemaps for debugging webpack's output.
+    devtool: "source-map",
 
     resolve: {
-        extensions: ['.ts', '.js'],
-        modules: [
-            ROOT,
-            'node_modules'
-        ]
+        // Add '.ts' and '.tsx' as resolvable extensions.
+        extensions: [".ts", ".tsx", ".js", ".json"]
     },
 
     module: {
         rules: [
-            /****************
-            * PRE-LOADERS
-            *****************/
-            {
-                enforce: 'pre',
-                test: /\.js$/,
-                use: 'source-map-loader'
-            },
-            {
-                enforce: 'pre',
-                test: /\.ts$/,
-                exclude: /node_modules/,
-                use: 'tslint-loader'
-            },
+            // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
+            { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
 
-            /****************
-            * LOADERS
-            *****************/
-            {
-                test: /\.ts$/,
-                exclude: [ /node_modules/ ],
-                use: 'awesome-typescript-loader'
-            }
+            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+            { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
         ]
     },
 
-    devtool: 'cheap-module-source-map',
-    devServer: {}
+    // When importing a module whose path matches one of the following, just
+    // assume a corresponding global variable exists and use that instead.
+    // This is important because it allows us to avoid bundling all of our
+    // dependencies, which allows browsers to cache those libraries between builds.
+    externals: {
+        "react": "React",
+        "react-dom": "ReactDOM"
+    }
 };
-
