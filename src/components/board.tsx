@@ -1,82 +1,47 @@
 import * as React from 'react';
-import {Square} from './square';
+import { Square } from './square';
 
-export class Board extends React.Component <any, any> {
-    constructor(props: any){
+export class Board extends React.Component<any, any> {
+    constructor(props: any) {
         super(props);
-        this.state = { 
-            squares: ['','','','','','','', '',''],
-            xIsNext: true
-        };
     }
 
-    handleClick(i: any) {
-        const squares = this.state.squares.slice();
-        if (calculateWinner(squares) || squares[i]) {
-            return;
-          }
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({
-            squares: squares,
-            xIsNext: !this.state.xIsNext,
-        });
-      }
-
-  renderSquare(i : any ) {
-    return <Square 
-        value = { this.state.squares[i]}
-        onClick={() => this.handleClick(i)}
-    />;
-  }
-
-  render() {
-    const winner = calculateWinner(this.state.squares);
-    let status;
-    if (winner) {
-      status = 'Winner: ' + winner;
-    } else {
-      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+    mouseEnter(i: any) {
+        let elems = document.querySelectorAll('[class*=group-' + this.props.groupings[i] + ']');
+        for (let i = 0; i < elems.length; i++) {
+            elems[i].classList.add('active');
+        }
     }
 
-    return (
-      <div>
-        <div className="status">{status}</div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    );
-  }
+    mouseLeave(i: any) {
+        let elems = document.querySelectorAll('[class*=group-' + this.props.groupings[i] + ']');
+        for (let i = 0; i < elems.length; i++) {
+            elems[i].classList.remove('active');
+        }
+    }
+
+    renderSquare(i: number) {
+        return <Square
+            value={this.props.squares[i]}
+            groupId={this.props.groupings[i]}
+            onClick={() => this.props.onClick(i)}
+            onMouseEnter={() => this.mouseEnter(i)}
+            onMouseLeave={() => this.mouseLeave(i)}
+        />;
+    }
+
+    render() {
+        let children = [];
+        for(var i = 0; i < this.props.squares.length; i++){
+            children.push(this.renderSquare(Number(i)));
+        }
+        return (
+            <div>
+                <div className="status">{status}</div>
+                <div className="wrapper">
+                    {children}
+                </div>
+            </div>
+        );
+    }
 }
-
-function calculateWinner(squares: any) {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
-      }
-    }
-    return null;
-  }

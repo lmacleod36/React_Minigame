@@ -16,6 +16,12 @@ body {
   .status {
     margin-bottom: 10px;
   }
+
+  .wrapper {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: minmax(10px, auto);
+  }
   
   .square {
     background: #fff;
@@ -38,6 +44,10 @@ body {
   
   .kbd-navigation .square:focus {
     background: #ddd;
+  }
+
+  .active{
+    background-color: yellow;
   }
   
   .game {
