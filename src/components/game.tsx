@@ -10,8 +10,7 @@ export class Game extends React.Component<any, any> {
       history: [{
         squares: Utils.initSquareValues,
       }],
-      level_id: 1,
-      groupings: Utils.json_config.levels[1].dataGroupings,
+      groupings: this.props.config_data.levels[0].dataGroupings,
       groupMagicNumber: this.pickWinner(),
       lives: Utils.maxLives,
       status: "Fail"
@@ -20,7 +19,10 @@ export class Game extends React.Component<any, any> {
   }
 
   pickWinner(){
-    return Math.floor(Math.random() * Utils.json_config.levels[this.state.level_id].groupingsCount);
+    let config = this.props.config_data
+    let level = this.props.level_id
+    let range = config.levels[level].groupingsCount;
+    return Math.floor(Math.random() * range);
   }
 
   handleClick(i: any) {
