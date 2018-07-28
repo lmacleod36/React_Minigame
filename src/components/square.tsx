@@ -1,12 +1,30 @@
 import * as React from 'react';
 
-export class Square extends React.Component<any, any> {
+interface SquareProps{
+  display_value: string;
+  class_type: string;
+  group_id: number;
+  onClick: Function;
+  onMouseEnter: Function;
+  onMouseLeave: Function;
+}
+
+interface SquareState{
+  history: Array<Object>
+}
+
+export class Square extends React.Component<SquareProps, SquareState> {
     constructor(props: any) {
       super(props);
+      this.state = {
+        history: [{
+          display_value: this.props.display_value
+        }],
+    };
   }
   
     render() {
-      let classString = "square group-" + this.props.groupId
+      let classString = "square group-" + this.props.group_id
       return (
         <button
           className = {classString}
@@ -14,7 +32,7 @@ export class Square extends React.Component<any, any> {
           onMouseEnter = {() => this.props.onMouseEnter()} 
           onMouseLeave = {() => this.props.onMouseLeave()} 
         >
-          {this.props.value}
+          {this.props.display_value}
         </button>
       );
     }

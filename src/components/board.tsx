@@ -22,8 +22,8 @@ export class Board extends React.Component<any, any> {
 
     renderSquare(i: number) {
         return <Square
-            value={this.props.squares[i]}
-            groupId={this.props.groupings[i]}
+            display_value={this.props.squares[i]}
+            group_id={this.props.groupings[i]}
             onClick={() => this.props.onClick(i)}
             onMouseEnter={() => this.mouseEnter(i)}
             onMouseLeave={() => this.mouseLeave(i)}
