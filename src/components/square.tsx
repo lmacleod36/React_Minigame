@@ -1,19 +1,15 @@
 import * as React from 'react';
 
-interface SquareProps{
-  display_value: string;
-  class_type: string;
-  group_id: number;
-  onClick: Function;
-  onMouseEnter: Function;
-  onMouseLeave: Function;
-}
+// export interface SquareProps{
+//   display_value: string;
+//   class_type: string;
+//   group_id: number;
+//   onClick: Function;
+//   onMouseEnter: Function;
+//   onMouseLeave: Function;
+// }
 
-interface SquareState{
-  history: Array<Object>
-}
-
-export class Square extends React.Component<SquareProps, SquareState> {
+export class Square extends React.Component<any, any> {
     constructor(props: any) {
       super(props);
       this.state = {
