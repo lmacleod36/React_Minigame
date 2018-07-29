@@ -37,16 +37,23 @@ export class Game extends React.Component<any, any> {
   }
 
   handleClick(i: any) {
+    //Get current history values
     const history = this.state.history;
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    const currentLives = this.state.lives;
     const square_types = current.square_types.slice();
+
+    //Get state values for comparison later
     const square_types_labels = this.state.defSquareTypes;
+    const currentLives = this.state.lives;
+
+    //Holders for new values
     let newStatus = this.state.status;
     let newLives = currentLives;
 
-
+    //Based on the sqaureType of the clicked square, trigger one of the 5
+    //SqauareType states.
+    //Example: If SqaureType is 0 (Aka "None") don't do anything on a click.
     let current_Square_Type = this.state.defSquareTypes[square_types[i]];
     switch (current_Square_Type) {
       case square_types_labels[0]:
@@ -73,6 +80,7 @@ export class Game extends React.Component<any, any> {
         break;
     }
 
+    //Update state values
     this.setState({
       history: history.concat([{
         squares: squares,
@@ -89,7 +97,6 @@ export class Game extends React.Component<any, any> {
     const lives = this.state.lives;
 
     let statusMessage = this.state.status;
-    console.log(statusMessage);
 
     return (
       <div className="game">
