@@ -20,7 +20,8 @@ export class Square extends React.Component<any, any> {
   }
   
     render() {
-      let classString = "square group-" + this.props.group_id
+      let square_id = 1;
+      let classString = "square";
       return (
         <button
           className = {classString}

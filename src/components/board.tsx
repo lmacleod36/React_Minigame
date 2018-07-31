@@ -6,17 +6,53 @@ export class Board extends React.Component<any, any> {
         super(props);
     }
 
+    getSquareGroupingId(i: any) {
+        return this.props.groupings[Number(i)];
+    }
+
+    getAllIndexes(idArray: Array<number>, squareIndex: number) {
+        var groupId = idArray[squareIndex];
+        var indexes = [];
+        var i;
+        for (i = 0; i < idArray.length; i++) {
+            if (idArray[i] === groupId) {
+                indexes.push(i);
+            }
+        }
+        return indexes;
+    }
+
     mouseEnter(i: any) {
-        let elems = document.querySelectorAll('[class*=group-' + this.props.groupings[i] + ']');
-        for (let i = 0; i < elems.length; i++) {
-            elems[i].classList.add('active');
+        let squareIndex = i;
+        let elems = document.querySelectorAll('[class*=square]');
+        let groupdata = this.props.groupings;
+        
+        let indexes = [];
+        if (elems.length === groupdata.length){
+            indexes = this.getAllIndexes(groupdata,squareIndex);
+            for (let item of indexes){
+                elems[item].classList.add('active');
+            }
+        }
+        else{
+            console.log("Datasets are not of the same length, something is wrong");
         }
     }
 
     mouseLeave(i: any) {
-        let elems = document.querySelectorAll('[class*=group-' + this.props.groupings[i] + ']');
-        for (let i = 0; i < elems.length; i++) {
-            elems[i].classList.remove('active');
+        let squareIndex = i;
+        let elems = document.querySelectorAll('[class*=square]');
+        let groupdata = this.props.groupings;
+        
+        let indexes = [];
+        if (elems.length === groupdata.length){
+            indexes = this.getAllIndexes(groupdata,squareIndex);
+            for (let item of indexes){
+                elems[item].classList.remove('active');
+            }
+        }
+        else{
+            console.log("Datasets are not of the same length, something is wrong");
         }
     }
 
@@ -32,7 +68,7 @@ export class Board extends React.Component<any, any> {
 
     render() {
         let children = [];
-        for(var i = 0; i < this.props.squares.length; i++){
+        for (var i = 0; i < this.props.squares.length; i++) {
             children.push(this.renderSquare(Number(i)));
         }
         return (
