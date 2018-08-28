@@ -35,7 +35,7 @@ export class Board extends React.Component<any, any> {
             }
         }
         else{
-            console.log("Datasets are not of the same length, something is wrong");
+            console.log("Datasets are not of the same length, something is wrong! Elems= " + elems.length + "And groupdata= " + groupdata.length);
         }
     }
 
